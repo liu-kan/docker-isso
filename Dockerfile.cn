@@ -3,6 +3,7 @@ FROM alpine
 ARG ISSO_VER=0.12.5
 
 ENV GID=1000 UID=1000
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk -U upgrade \
  && apk add -t build-dependencies \
     python3-dev \
@@ -16,6 +17,7 @@ RUN apk -U upgrade \
     su-exec \
     tini
 RUN apk add py3-setuptools py3-webencodings py3-pip
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip3 install wheel
 RUN pip3 install --no-cache "isso" \
  && apk del build-dependencies \
@@ -25,7 +27,7 @@ COPY run.sh /usr/local/bin/run.sh
 
 RUN chmod +x /usr/local/bin/run.sh
 
-EXPOSE 8080
+EXPOSE 4280
 
 VOLUME /db /config
 

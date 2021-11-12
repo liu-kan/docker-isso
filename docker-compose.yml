@@ -1,0 +1,11 @@
+isso:
+  image: isso
+  ports:
+    - 4280:4280
+  environment:
+    - GID=1000
+    - UID=1000
+  volumes:
+    - /home/liukan/data/isso/config:/config
+    - /home/liukan/data/isso/db:/db
+  restart: unless-stopped
